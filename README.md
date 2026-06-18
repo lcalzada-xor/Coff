@@ -5,7 +5,7 @@ Call Stack Spoof with Indirect Syscall for Rust
 
 La técnica implementada si bien su objetivo final es el mismo que implementaciones como SilentMoonWalk, su arquitectura es diferente, lo mas destacable es que no utiliza TLS callbacks ni explota la desincronizacion del unwinding con el registro RBP a través del código UWOP_SET_FPREG. 
 
-En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila sintética contigua y matemáticamente perfecta que se sincroniza al milímetro con el .pdata del sistema mediante un doble juego de gadgets (ADD RSP + CALL), logrando un corte limpio e indetectable de la traza (Unwind) finalizando en un NULL para detener el unwinding.
+En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila sintética contigua y matemáticamente perfecta que se sincroniza al milímetro con el .pdata del sistema mediante un doble juego de gadgets (ADD RSP + CALL), logrando un corte limpio e indetectable de la traza (Unwind) finalizando en un NULL para detener el unwinding. (De momento no me ha dado problemas probando varias funciones :) )
 
 ## Flujo de Ejecución de la implementación (partes destacadas)
 
