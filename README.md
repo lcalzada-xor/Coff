@@ -22,7 +22,8 @@ En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila
 6. La **Syscall termina**, aterriza en el **Gadget 1** (que **limpia** el Shadow Space), rebota en el **Gadget 2** (que devuelve el **control** de ejecución), y finalmente se **restaura el RSP** original.
 
 ## ¿Como se ve el stack antes de la ejecucion de la syscall?
-~~~ 
+~~~
+Direcciones Bajas 0x0000000000
 ================================================================================
 [RSP + pos4] -> pos4 (0x00): Dirección de Gadget 1 (ADD RSP, 0x38; RET)
                              (La Syscall real de NTDLL hace RET y aterriza aquí)
@@ -55,6 +56,7 @@ En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila
                 (El EDR lee el 0, asume que es el origen
                  legítimo del hilo y da su análisis por terminado y limpio).
 ================================================================================
+Direcciones altas 0xFFFFFFFFFFFF
 ~~~
 ## Note
 
