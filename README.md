@@ -1,6 +1,12 @@
 # Coff
 Call Stack Spoof with Indirect Syscall for Rust
 
+## ¿Otra implementación mas de Call Stack Spoof? -> Result<No>
+
+La técnica implementada si bien su objetivo final es el mismo que implementaciones como SilentMoonWalk, su arquitectura es diferente, lo mas destacable es que no utiliza TLS callbacks ni explota la desincronizacion del unwinding con el registro RBP a través del código UWOP_SET_FPREG. 
+
+En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila sintética contigua y matemáticamente perfecta que se sincroniza al milímetro con el .pdata del sistema mediante un doble juego de gadgets (ADD RSP + CALL), logrando un corte limpio e indetectable de la traza (Unwind) finalizando en un NULL para detener el unwinding.
+
 ## Flujo de Ejecución de la implementación (partes destacadas)
 
 1. El inyector localiza NTDLL y Kernel32, se **extrae dinámicamente el SSN** (System Service Number) de la API objetivo (mediante escaneo de la funcion cargada en memoria).
@@ -18,7 +24,7 @@ Call Stack Spoof with Indirect Syscall for Rust
 
 ## Note
 
-Este repositorio es un wrapper de la implementacion de esta misma tecnica en https://github.com/lcalzada-xor/zada-xor/blob/main/src/techniques/evasion/execution/indirect_syscall.rs
+Este repositorio es un wrapper de la implementacion de esta misma técnica en https://github.com/lcalzada-xor/zada-xor/blob/main/src/techniques/evasion/execution/indirect_syscall.rs
 
 ## ⚠️ Descargo de Responsabilidad y Uso Ético (Disclaimer)
 
