@@ -1,6 +1,20 @@
 # Coff
 Call Stack Spoof with Indirect Syscall for Rust
 
+## Flujo de Ejecución de la implementación (partes destacadas)
+
+1. El inyector localiza NTDLL y Kernel32, se extrae dinámicamente el SSN (System Service Number) de la API objetivo (mediante escaneo de la funcion cargada en memoria).
+
+2. Se escanea la memoria de nuevo en busca de los Gadgets necesarios - Se han utilizado: ADD RSP, \{variable\}; RET y CALL RDI/RSI/R15/R12 (cualquiera de ellos).
+
+3. El parser lee el .pdata de los Gadgets y de las funciones base de Windows (BaseThreadInitThunk, RtlUserThreadStart), extrayendo el tamaño exacto que ocupará cada uno en la memoria.
+
+4. El bloque asm! secuestra el registro RSP, expande la pila restando los bytes calculados que ocuparan las funciones a spoofear y coloca las direcciones de retorno de estas funciones spoofeadas (en el caso de BaseThreadInitThunk, RtlUserThreadStart se les suma los offsets +0x14 y +0x21 para mayor realismo).
+
+5. Se altera el StackBase, se establece el registro R10 y el EAX para la Syscall, y se ejecuta el salto hacia NTDLL.
+
+6. La Syscall termina, aterriza en el Gadget 1 (que limpia el Shadow Space), rebota en el Gadget 2 (que devuelve el control de ejecución), y finalmente se restaura el RSP original.
+
 ## ⚠️ Descargo de Responsabilidad y Uso Ético (Disclaimer)
 
 > [!IMPORTANT]
