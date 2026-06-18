@@ -1,5 +1,5 @@
 use std::arch::asm;
-use zada_xor::memory::process::pattern_scan_mem::find_pattern_in_specific_func;
+use zada_xor::memory::process::pattern_scan_mem::find_pattern_in_specific_func; // estos imports "zada-xor" vienen de mi propia lib que estoy desarrollando, el repo esta en github ;)
 use zada_xor::techniques::evasion::dinamic_api_resolution::{
     get_export_by_name_hash, get_ntdll_base,
 };
