@@ -1,0 +1,11 @@
+[package]
+name = "coff"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+zada-xor = { git = "https://github.com/lcalzada-xor/zada-xor", version = "0.1.0" }
+
+[[bin]]
+name = "prueba"
+path = "src/prueba.rs"
