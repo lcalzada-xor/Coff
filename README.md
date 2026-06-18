@@ -21,6 +21,40 @@ En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila
 
 6. La **Syscall termina**, aterriza en el **Gadget 1** (que **limpia** el Shadow Space), rebota en el **Gadget 2** (que devuelve el **control** de ejecución), y finalmente se **restaura el RSP** original.
 
+## ¿Como se ve el stack antes de la ejecucion de la syscall?
+
+================================================================================
+[RSP + pos4] -> pos4 (0x00): Dirección de Gadget 1 (ADD RSP, 0x38; RET)
+                             (La Syscall real de NTDLL hace RET y aterriza aquí)
+[RSP + 0x08] -> Shadow Space 1 (Basura / RCX)
+[RSP + 0x10] -> Shadow Space 2 (Basura / RDX)
+[RSP + 0x18] -> Shadow Space 3 (Basura / R8)
+[RSP + 0x20] -> Shadow Space 4 (Basura / R9)
+[RSP + 0x28] -> ARGUMENTO 5 (Sobrevive intacto, empujado por Rust antes de saltar)
+[RSP + 0x30] -> ARGUMENTO 6
+================================================================================
+...          -> El Gadget 1 ejecuta "ADD RSP, 0x38" (Limpiando la basura de arriba).
+                Acto seguido ejecuta "RET", sacando la dirección en RSP + 0x38.
+================================================================================
+[RSP + pos3] -> pos3 (pos4 + offset4 + 8): Dirección de Gadget 2 (CALL RDI / REG)
+                             (El flujo aterriza aquí. Al ser un "CALL", ensucia
+                              8 bytes, pero nos devuelve el control al código Rust) -> da igual ensuciar 8 bytes por que al final de la syscall spoofeada se restaura
+================================================================================
+...          -> Espacio asignado al frame de Gadget 2 (offset3 extraído del .pdata)
+================================================================================
+[RSP + pos2] -> pos2 (pos3 + offset3 + 8): BaseThreadInitThunk + 0x14
+================================================================================
+...          -> Espacio asignado al frame de BaseThreadInitThunk (offset2)
+================================================================================
+[RSP + pos1] -> pos1 (pos2 + offset2 + 8): RtlUserThreadStart + 0x21
+================================================================================
+...          -> Espacio asignado al frame de RtlUserThreadStart (offset1)
+                (+ 8 bytes del "POP" virtual calculado por el EDR al desenrollar)
+================================================================================
+[RSP + null] -> null_ret_offset (pos1 + offset1 + 8): 0x0000000000000000
+                (El EDR lee el 0, asume que es el origen
+                 legítimo del hilo y da su análisis por terminado y limpio).
+================================================================================
 
 ## Note
 
