@@ -1,6 +1,8 @@
 # Coff
 Call Stack Spoof with Indirect Syscall for Rust
 
+[Español](README.md) • [English](README.es.md)
+
 ## ¿Otra implementación mas de Call Stack Spoof? -> Result\<Es diferente\>
 
 La técnica implementada si bien su objetivo final es el mismo que implementaciones como SilentMoonWalk, su arquitectura es diferente, lo mas destacable es que no utiliza TLS callbacks ni explota la desincronizacion del unwinding con el registro RBP a través del código UWOP_SET_FPREG. 
@@ -120,6 +122,12 @@ Direcciones Bajas 0x0000000000
 ================================================================================
 Direcciones altas 0xFFFFFFFFFFFF
 ~~~
+## Caracteristicas Extra
+
+1. Dado que la implementacion tiene como origen codigo de la lib que estoy desarrollando [zada-xor](https://github.com/lcalzada-xor/zada-xor), se ha implementado esta técnica con el mayor **opsec** posible, mediante **dynamic api resolution via hashes** (algoritmo casero) y tiene **zero dependencias** adicionales (a excepcion del modulo de cifrado chacha20).
+2. Tiene **dynamic ssn resolution** lo que significa que los codigos ssn de las apis se resuelven dinámicamente y no estan hardcodeados.
+3. Ya se me ocurriran mas cosas que poner aqui, ahora tengo la mente en blanco xd.
+
 ## Note
 
 Este repositorio es un wrapper de la implementacion de esta misma técnica en https://github.com/lcalzada-xor/zada-xor/blob/main/src/techniques/evasion/execution/indirect_syscall.rs
