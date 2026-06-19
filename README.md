@@ -1,7 +1,7 @@
 # Coff
 Call Stack Spoof with Indirect Syscall for Rust
 
-[Español](README.md) • [English](README.es.md)
+[Español](README.md) • [English](README.en.md)
 
 ## ¿Otra implementación mas de Call Stack Spoof? -> Result\<Es diferente\>
 
@@ -54,6 +54,7 @@ let status = indirect_syscall_6( // esta funcion implementa call stack spoofing
         }
 ~~~
 **Nota 1**: Si tu funcion que quieres llamar tiene menos argumentos que 6, basta con meter 0 en donde no haya arg.
+
 **Nota 2**: Para que **no** salgan los mensajes de **debug** se recomienda compilar con el atributo --release.
 
 > **Recomendación de OPSEC:** Antes de invocar la función, se recomienda calcular el hash de su nombre (por ejemplo, mediante `unique_hash("NtDelayExecution")`) e incluirlo como una constante *hardcodeada* en el código final:
