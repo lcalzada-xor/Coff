@@ -25,6 +25,8 @@ Una vez incluida la dependencia, habrá que **importarla** de la siguiente forma
 
 ~~~
 use zada_xor::techniques::evasion::execution::indirect_syscall::*;
+use zada_xor::techniques::evasion::api_hashing::unique_hash;
+
 ~~~
 
 Si sois curiosos e inquietos, os animo a hecharle un vistazo a mas implementaciones de otras tecnicas que tengo por ahi ;).
@@ -51,8 +53,16 @@ let status = indirect_syscall_6( // esta funcion implementa call stack spoofing
             Err(err) => println!("Error al ejecutar la syscall: {}", err),
         }
 ~~~
+**Nota 1**: Si tu funcion que quieres llamar tiene menos argumentos que 6, basta con meter 0 en donde no haya arg.
+**Nota 2**: Para que **no** salgan los mensajes de **debug** se recomienda compilar con el atributo --release.
 
-**Nota**: Para que **no** salgan los mensajes de **debug** se recomienda compilar con el atributo --release.
+> **Recomendación de OPSEC:** Antes de invocar la función, se recomienda calcular el hash de su nombre (por ejemplo, mediante `unique_hash("NtDelayExecution")`) e incluirlo como una constante *hardcodeada* en el código final:
+>
+> ```rust
+> const HASH_NT_DELAY_EXECUTION: u32 = 0x323423;
+> ```
+>
+> Para mantener un OPSEC riguroso, evite incluir la cadena de texto `"NtDelayExecution"` (o la api que vayas a utilizar) en cualquier parte del binario, impidiendo así que sea detectada mediante análisis estático o herramientas como `strings`.
 
 
 ## Flujo de Ejecución de la implementación (partes destacadas)
