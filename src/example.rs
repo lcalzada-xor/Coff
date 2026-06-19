@@ -21,6 +21,7 @@ fn main() {
 
     unsafe {
         let status = indirect_syscall_6(
+            //ind syscall with call stack spoof
             unique_hash("NtDelayExecution"),
             ssn_code,
             0,
