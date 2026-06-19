@@ -1,5 +1,4 @@
 # Coff - Call Stack Spoof with Indirect Syscall for Rust
-Call Stack Spoof with Indirect Syscall for Rust
 
 [Español](README.md) • [English](README.en.md)
 
