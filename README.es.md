@@ -8,8 +8,10 @@ La técnica implementada si bien su objetivo final es el mismo que implementacio
 
 En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila sintética contigua y matemáticamente perfecta que se sincroniza al milímetro con el .pdata del sistema mediante un doble juego de gadgets (ADD RSP + CALL), logrando un corte limpio e indetectable de la traza (Unwind) finalizando en un NULL para detener el unwinding. (De momento no me ha dado problemas probando varias funciones :) )
 
-<img width="1915" height="973" alt="imagen" src="https://github.com/user-attachments/assets/162b4b70-c7c5-4850-aa8d-f11f6b3b902b" />
-
+<figure>
+  <img width="1916" height="939" alt="Peek 2026-06-23 12-25" src="https://github.com/user-attachments/assets/c973b2b3-4795-4187-bab0-7608e2a38e1c" />
+  <figcaption><i>Ejecución indirecta de NtDelayExecution con call stack spoof.</i></figcaption>
+</figure>
 ## Caracteristicas
 
 1. Dado que la implementacion tiene como origen codigo de la lib que estoy desarrollando [zada-xor](https://github.com/lcalzada-xor/zada-xor), se ha implementado esta técnica con el mayor **opsec** posible.
@@ -23,7 +25,7 @@ En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila
 9. Ya se me ocurriran mas cosas que poner aqui, ahora tengo la mente en blanco xd.
 
 ## ¿Como usarlo?
-La implementacion realizada esta orientada a ser importada como una dependencia, para ello es necesario meter en el **Cargo.toml** la dependencia de zada-xor (la libreria que estoy desarrollando):
+La implementacion realizada esta orientada a ser **importada como una dependencia**, para ello es necesario meter en el **Cargo.toml** la dependencia de **zada-xor** (la libreria que estoy desarrollando):
 
 ### Cargo.toml
 ~~~
