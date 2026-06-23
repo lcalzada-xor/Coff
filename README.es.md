@@ -2,7 +2,7 @@
 
 [Español](README.es.md) • [English](README.md)
 
-## ¿Otra implementación mas de Call Stack Spoof? -> Result\<Es diferente\>
+## ¿Otra implementación mas de Call Stack Spoof? -> Result\<New\>
 
 La técnica implementada si bien su objetivo final es el mismo que implementaciones como SilentMoonWalk, su arquitectura es diferente, lo mas destacable es que no utiliza TLS callbacks ni explota la desincronizacion del unwinding con el registro RBP a través del código UWOP_SET_FPREG. 
 
