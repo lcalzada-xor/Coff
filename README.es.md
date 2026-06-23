@@ -20,6 +20,7 @@
 * [¿Cómo se ve el stack antes de la ejecución?](#cómo-se-ve-el-stack-antes-de-la-ejecucion-de-la-syscall)
 * [Nota sobre el repositorio](#note)
 * [⚠️ Descargo de Responsabilidad](#️-descargo-de-responsabilidad-y-uso-ético-disclaimer)
+* [Nota sobre el repositorio](#agradecimientos)
 
 ---
 
@@ -176,3 +177,14 @@ Este repositorio es un wrapper de la implementacion de esta misma técnica en ht
 > * **Uso Autorizado:** El código y los conceptos demostrados aquí están destinados únicamente a ser utilizados en entornos controlados, laboratorios de investigación y sistemas donde se cuente con la autorización explícita de los propietarios.
 > * **Finalidad Defensiva:** Está diseñado para ayudar a investigadores de seguridad, analistas de malware y desarrolladores de soluciones EDR/AV a comprender cómo operan estas técnicas de resolución para poder detectarlas y mitigarlas eficazmente.
 > * **Prohibición de Uso Malicioso:** El autor no promueve, apoya ni consiente el uso de este software con fines destructivos, intrusivos o maliciosos. Cualquier uso inadecuado o ilegal de esta herramienta es responsabilidad exclusiva del usuario final.
+
+## Agradecimientos
+
+Este proyecto no habría sido posible sin el trabajo previo de grandes investigadores de la comunidad. Quiero agradecer especialmente a:
+
+* **[klezVirus](https://github.com/klezVirus)**: Por sentar las bases conceptuales con su espectacular trabajo en **[SilentMoonWalk](https://github.com/klezVirus/SilentMoonwalk)**, el cual sirvió como la principal documentación e inspiración teórica para este repositorio.
+* **[Kudaes](https://github.com/Kudaes)** (Javier): Por su proyecto **[Unwinder](https://github.com/Kudaes/Unwinder)**. Su incansable aporte a la comunidad hispana de y su contenido técnico y charlas de altísimo nivel que han sido la chispa y motivación clave para lanzarme a desarrollar y publicar este repositorio en Rust.
+* **[joaoviictorti](https://github.com/joaoviictorti)**: Por su implementación **[uwd](https://github.com/joaoviictorti/uwd)**, que sirvió como un excelente punto de referencia para desarrollar la lib.
+
+Gracias por compartir su conocimiento de forma abierta y elevar el nivel de la investigación en seguridad!
+
