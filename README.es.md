@@ -1,4 +1,5 @@
 # Coff - Call Stack Spoof with Indirect Syscall for Rust
+[![Made with Rust](https://img.shields.io/badge/made_with-Rust-red?logo=rust)](https://www.rust-lang.org/)
 
 [Español](README.es.md) • [English](README.md)
 
