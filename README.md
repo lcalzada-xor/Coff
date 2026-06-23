@@ -10,6 +10,17 @@ En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila
 
 <img width="1915" height="973" alt="imagen" src="https://github.com/user-attachments/assets/162b4b70-c7c5-4850-aa8d-f11f6b3b902b" />
 
+## Caracteristicas
+
+1. Dado que la implementacion tiene como origen codigo de la lib que estoy desarrollando [zada-xor](https://github.com/lcalzada-xor/zada-xor), se ha implementado esta técnica con el mayor **opsec** posible.
+2. **Gadgets Dinamicos**: tiene fallbacks en caso de que x gadget no se encuentre, se intenta con otro.
+3. Construccion de **pila sintetica** 100% acorde a la **estructura estandar** esperada por el unwinding.
+4. Tiene **dynamic ssn resolution** lo que significa que los codigos ssn de las apis se resuelven dinámicamente, no estan hardcodeados.
+5. **Dynamic api resolution via hashes** (algoritmo casero).
+6. **Zero dependencias**, todo el codigo viene de la lib zada-xor.
+7. **Parseo de codigos unwind** implementado manualmente.
+8. **Modular** y **implementacion limpia**, facil de seguir.
+9. Ya se me ocurriran mas cosas que poner aqui, ahora tengo la mente en blanco xd.
 
 ## ¿Como usarlo?
 La implementacion realizada esta orientada a ser importada como una dependencia, para ello es necesario meter en el **Cargo.toml** la dependencia de zada-xor (la libreria que estoy desarrollando):
@@ -132,11 +143,6 @@ Direcciones Bajas 0x0000000000
 ================================================================================
 Direcciones altas 0xFFFFFFFFFFFF
 ~~~
-## Caracteristicas Extra
-
-1. Dado que la implementacion tiene como origen codigo de la lib que estoy desarrollando [zada-xor](https://github.com/lcalzada-xor/zada-xor), se ha implementado esta técnica con el mayor **opsec** posible, mediante **dynamic api resolution via hashes** (algoritmo casero) y tiene **zero dependencias** adicionales (a excepcion del modulo de cifrado chacha20).
-2. Tiene **dynamic ssn resolution** lo que significa que los codigos ssn de las apis se resuelven dinámicamente y no estan hardcodeados.
-3. Ya se me ocurriran mas cosas que poner aqui, ahora tengo la mente en blanco xd.
 
 ## Note
 
