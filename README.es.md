@@ -2,6 +2,12 @@
 
 [Español](README.es.md) • [English](README.md)
 
+<figure>
+  <img width="1916" height="939" alt="Peek 2026-06-23 12-25" src="https://github.com/user-attachments/assets/c973b2b3-4795-4187-bab0-7608e2a38e1c" />
+  <figcaption><i>Ejecución indirecta de NtDelayExecution con call stack spoof.</i></figcaption>
+</figure>
+
+
 ## Índice
 
 * [¿Otra implementación más de Call Stack Spoof?](#call-stack-spoof)
@@ -22,11 +28,6 @@
 La técnica implementada si bien su objetivo final es el mismo que implementaciones de las que me he documentado como [SilentMoonWalk](https://github.com/klezVirus/SilentMoonwalk) de [klezVirus](https://github.com/klezVirus) y sus hijos: [Unwinder](https://github.com/Kudaes/Unwinder) de [Kudaes](https://github.com/Kudaes) y [uwd](https://github.com/joaoviictorti/uwd) de [joaoviictorti](https://github.com/joaoviictorti), su arquitectura es diferente, lo mas destacable es que n**o utiliza TLS callbacks** ni explota la desincronizacion del unwinding con el registro RBP a través del código **UWOP_SET_FPREG**. 
 
 En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila sintética contigua y matemáticamente perfecta que se sincroniza quirurgicamente con el .pdata del sistema mediante un doble uso de gadgets (ADD RSP + CALL), logrando un corte limpio e indetectable de la traza (Unwind) finalizando en un NULL para detener el unwinding. (De momento no me ha dado problemas probando varias funciones :) )
-
-<figure>
-  <img width="1916" height="939" alt="Peek 2026-06-23 12-25" src="https://github.com/user-attachments/assets/c973b2b3-4795-4187-bab0-7608e2a38e1c" />
-  <figcaption><i>Ejecución indirecta de NtDelayExecution con call stack spoof.</i></figcaption>
-</figure>
 
 ## Características
 
