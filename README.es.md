@@ -12,6 +12,7 @@ En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila
   <img width="1916" height="939" alt="Peek 2026-06-23 12-25" src="https://github.com/user-attachments/assets/c973b2b3-4795-4187-bab0-7608e2a38e1c" />
   <figcaption><i>Ejecución indirecta de NtDelayExecution con call stack spoof.</i></figcaption>
 </figure>
+
 ## Caracteristicas
 
 1. Dado que la implementacion tiene como origen codigo de la lib que estoy desarrollando [zada-xor](https://github.com/lcalzada-xor/zada-xor), se ha implementado esta técnica con el mayor **opsec** posible.
