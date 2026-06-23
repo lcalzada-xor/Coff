@@ -186,5 +186,5 @@ Este proyecto no habría sido posible sin el trabajo previo de grandes investiga
 * **[Kudaes](https://github.com/Kudaes)** (Javier): Por su proyecto **[Unwinder](https://github.com/Kudaes/Unwinder)**. Su incansable aporte a la comunidad hispana de y su contenido técnico y charlas de altísimo nivel que han sido la chispa y motivación clave para lanzarme a desarrollar y publicar este repositorio en Rust.
 * **[joaoviictorti](https://github.com/joaoviictorti)**: Por su implementación **[uwd](https://github.com/joaoviictorti/uwd)**, que sirvió como un excelente punto de referencia para desarrollar la lib.
 
-Gracias por compartir su conocimiento de forma abierta y elevar el nivel de la investigación en seguridad!
+Gracias por compartir conocimientos de forma abierta y mejorar el nivel de la investigación en seguridad!
 
