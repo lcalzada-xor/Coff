@@ -20,7 +20,7 @@
 * [¿Cómo se ve el stack antes de la ejecución?](#cómo-se-ve-el-stack-antes-de-la-ejecucion-de-la-syscall)
 * [Nota sobre el repositorio](#note)
 * [⚠️ Descargo de Responsabilidad](#️-descargo-de-responsabilidad-y-uso-ético-disclaimer)
-* [Nota sobre el repositorio](#agradecimientos)
+* [Agradecimientos](#agradecimientos)
 
 ---
 
