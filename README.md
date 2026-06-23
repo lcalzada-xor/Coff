@@ -183,7 +183,7 @@ This repository is a wrapper of the implementation of this same technique at htt
 This project would not have been possible without the previous work of great researchers in the community. I want to especially thank:
 
 * **[klezVirus](https://github.com/klezVirus)**: For laying the conceptual foundations with his spectacular work on **[SilentMoonWalk](https://github.com/klezVirus/SilentMoonwalk)**, which served as the primary documentation and theoretical inspiration for this repository.
-* **[Kudaes](https://github.com/Kudaes)** (Javier): For his project **[Unwinder](https://github.com/Kudaes/Unwinder)**. His tireless contribution to the Spanish-speaking malware development community and his extremely high-level technical content and talks have been the spark and key motivation to jump into developing and publishing this repository in Rust.
+* **[Kudaes](https://github.com/Kudaes)**: For his project **[Unwinder](https://github.com/Kudaes/Unwinder)**. His tireless contribution to the Spanish-speaking malware development community and his extremely high-level technical content and talks have been the spark and key motivation to jump into developing and publishing this repository in Rust.
 * **[joaoviictorti](https://github.com/joaoviictorti)**: For his implementation **[uwd](https://github.com/joaoviictorti/uwd)**, which served as an excellent reference point to develop the lib.
 
 Thank you for openly sharing knowledge and improving the level of security research!
