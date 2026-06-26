@@ -12,12 +12,12 @@
 ## Índice
 
 * [¿Otra implementación más de Call Stack Spoof?](#call-stack-spoof)
+* [Como se ve el stack en Coff vs SilentMoonWalk?](#como-se-ve-el-stack-en-coff-vs-silentmoonwalk)
 * [Características](#características)
 * [¿Cómo usarlo?](#cómo-usarlo)
     * [Cargo.toml](#cargotoml)
     * [Ejemplo](#ejemplo)
 * [Flujo de Ejecución de la implementación](#flujo-de-ejecución-de-la-implementación-partes-destacadas)
-* [¿Cómo se ve el stack antes de la ejecución?](#cómo-se-ve-el-stack-antes-de-la-ejecucion-de-la-syscall)
 * [Nota sobre el repositorio](#note)
 * [⚠️ Descargo de Responsabilidad](#️-descargo-de-responsabilidad-y-uso-ético-disclaimer)
 * [Agradecimientos](#agradecimientos)
@@ -30,6 +30,57 @@
 La técnica implementada si bien su objetivo final es el mismo que implementaciones de las que me he documentado como [SilentMoonWalk](https://github.com/klezVirus/SilentMoonwalk) de [klezVirus](https://github.com/klezVirus) y sus hijos: [Unwinder](https://github.com/Kudaes/Unwinder) de [Kudaes](https://github.com/Kudaes) y [uwd](https://github.com/joaoviictorti/uwd) de [joaoviictorti](https://github.com/joaoviictorti), su arquitectura es diferente, lo mas destacable es que n**o utiliza TLS callbacks** ni explota la desincronizacion del unwinding con el registro RBP a través del código **UWOP_SET_FPREG**. 
 
 En su lugar, se ciñe estrictamente al ABI de Windows x64, construyendo una pila sintética contigua y matemáticamente perfecta que se sincroniza quirurgicamente con el .pdata del sistema mediante un doble uso de gadgets (ADD RSP + CALL), logrando un corte limpio e indetectable de la traza (Unwind) finalizando en un NULL para detener el unwinding. (De momento no me ha dado problemas probando varias funciones :) )
+
+## Como se ve el stack en Coff vs SilentMoonWalk?
+
+### SilentMoonWalk Stack
+
+<img width="1047" height="487" alt="imagen" src="https://github.com/user-attachments/assets/c61e93d4-fd68-45d4-ac02-54728fd63de5" />
+
+**Note**: Image from https://www.youtube.com/watch?v=NQSV1_0w5iM&t=2902s
+
+
+### Coff Stack
+
+<img width="1441" height="736" alt="Gemini_Generated_Image_xmswkcxmswkcxmsw" src="https://github.com/user-attachments/assets/48c64ef9-c7f7-4044-8ca8-5c64e96396d7" />
+
+**Note**: Gadgets are dynamic, also the functions related with them, in the photo the middle gadget spoof functions are examples.
+
+~~~
+Direcciones Bajas 0x0000000000
+================================================================================
+[RSP + pos4] -> pos4 (0x00): Dirección de Gadget 1 (ADD RSP, 0x38; RET)
+                             (La Syscall real de NTDLL hace RET y aterriza aquí)
+[RSP + 0x08] -> Shadow Space 1 (Basura / RCX)
+[RSP + 0x10] -> Shadow Space 2 (Basura / RDX)
+[RSP + 0x18] -> Shadow Space 3 (Basura / R8)
+[RSP + 0x20] -> Shadow Space 4 (Basura / R9)
+[RSP + 0x28] -> ARGUMENTO 5 (Sobrevive intacto, empujado por Rust antes de saltar)
+[RSP + 0x30] -> ARGUMENTO 6
+================================================================================
+...          -> El Gadget 1 ejecuta "ADD RSP, 0x38" (Limpiando la basura de arriba).
+                Acto seguido ejecuta "RET", sacando la dirección en RSP + 0x38 -> Dir Gadget 2
+================================================================================
+[RSP + pos3] -> pos3 (pos4 + offset4 + 8): Dirección de Gadget 2 (CALL RDI / REG)
+                             (El flujo aterriza aquí. Al ser un "CALL", ensucia
+                              8 bytes, pero nos devuelve el control al código Rust) -> da igual ensuciar 8 bytes por que al final de la syscall spoofeada se restaura
+================================================================================
+...          -> Espacio asignado al frame de Gadget 2 (offset3 extraído del .pdata)
+================================================================================
+[RSP + pos2] -> pos2 (pos3 + offset3 + 8): BaseThreadInitThunk + 0x14 (No ejecuta nada dentro de aqui, solo es spoofeo)
+================================================================================
+...          -> Espacio asignado al frame de BaseThreadInitThunk (offset2)
+================================================================================
+[RSP + pos1] -> pos1 (pos2 + offset2 + 8): RtlUserThreadStart + 0x21 (No ejecuta nada dentro de aqui, solo es spoofeo)
+================================================================================
+...          -> Espacio asignado al frame de RtlUserThreadStart (offset1)
+================================================================================
+[RSP + null] -> null_ret_offset (pos1 + offset1 + 8): 0x0000000000000000
+                (El EDR lee el 0, asume que es el origen
+                 legítimo del hilo y da su análisis por terminado y limpio).
+================================================================================
+Direcciones altas 0xFFFFFFFFFFFF
+~~~
 
 ## Características
 
@@ -127,43 +178,6 @@ let status = indirect_syscall_6( // esta funcion implementa call stack spoofing
 
 <img width="1094" height="240" alt="imagen" src="https://github.com/user-attachments/assets/23cb4456-7f89-45a6-b9cd-bf0e612e6e72" />
 
-
-## ¿Como se ve el stack antes de la ejecucion de la syscall?
-~~~
-Direcciones Bajas 0x0000000000
-================================================================================
-[RSP + pos4] -> pos4 (0x00): Dirección de Gadget 1 (ADD RSP, 0x38; RET)
-                             (La Syscall real de NTDLL hace RET y aterriza aquí)
-[RSP + 0x08] -> Shadow Space 1 (Basura / RCX)
-[RSP + 0x10] -> Shadow Space 2 (Basura / RDX)
-[RSP + 0x18] -> Shadow Space 3 (Basura / R8)
-[RSP + 0x20] -> Shadow Space 4 (Basura / R9)
-[RSP + 0x28] -> ARGUMENTO 5 (Sobrevive intacto, empujado por Rust antes de saltar)
-[RSP + 0x30] -> ARGUMENTO 6
-================================================================================
-...          -> El Gadget 1 ejecuta "ADD RSP, 0x38" (Limpiando la basura de arriba).
-                Acto seguido ejecuta "RET", sacando la dirección en RSP + 0x38 -> Dir Gadget 2
-================================================================================
-[RSP + pos3] -> pos3 (pos4 + offset4 + 8): Dirección de Gadget 2 (CALL RDI / REG)
-                             (El flujo aterriza aquí. Al ser un "CALL", ensucia
-                              8 bytes, pero nos devuelve el control al código Rust) -> da igual ensuciar 8 bytes por que al final de la syscall spoofeada se restaura
-================================================================================
-...          -> Espacio asignado al frame de Gadget 2 (offset3 extraído del .pdata)
-================================================================================
-[RSP + pos2] -> pos2 (pos3 + offset3 + 8): BaseThreadInitThunk + 0x14 (No ejecuta nada dentro de aqui, solo es spoofeo)
-================================================================================
-...          -> Espacio asignado al frame de BaseThreadInitThunk (offset2)
-================================================================================
-[RSP + pos1] -> pos1 (pos2 + offset2 + 8): RtlUserThreadStart + 0x21 (No ejecuta nada dentro de aqui, solo es spoofeo)
-================================================================================
-...          -> Espacio asignado al frame de RtlUserThreadStart (offset1)
-================================================================================
-[RSP + null] -> null_ret_offset (pos1 + offset1 + 8): 0x0000000000000000
-                (El EDR lee el 0, asume que es el origen
-                 legítimo del hilo y da su análisis por terminado y limpio).
-================================================================================
-Direcciones altas 0xFFFFFFFFFFFF
-~~~
 
 ## Note
 
