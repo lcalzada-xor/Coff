@@ -45,6 +45,7 @@ Instead, it strictly adheres to the Windows x64 ABI, building a contiguous and m
 <img width="1441" height="736" alt="Gemini_Generated_Image_xmswkcxmswkcxmsw" src="https://github.com/user-attachments/assets/48c64ef9-c7f7-4044-8ca8-5c64e96396d7" />
 
 **Note**: Gadgets are dynamic, also the functions related with them, in the photo the middle gadget spoof functions are examples.
+
 **Note 2**: The image was made with AI, i hope is helpfull and do not confuse more than it helps.
 
 ~~~
