@@ -21,6 +21,7 @@
 * [Note about the repository](#note)
 * [⚠️ Disclaimer](#️-disclaimer-and-ethical-use-disclaimer)
 * [Acknowledgements](#acknowledgements)
+* [TODO](#todo)
 
 ---
 
@@ -202,3 +203,7 @@ This project would not have been possible without the previous work of great res
 * **[joaoviictorti](https://github.com/joaoviictorti)**: For his implementation **[uwd](https://github.com/joaoviictorti/uwd)**, which served as an excellent reference point to develop the lib.
 
 Thank you for openly sharing knowledge and improving the level of security research!
+
+# TODO
+
+impl must modify TEB.StackBase (gs:[0x08]) to prevent anomalous unwinding size
